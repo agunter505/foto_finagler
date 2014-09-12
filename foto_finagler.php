@@ -45,4 +45,40 @@ $my_foto_css = new foto_css();
 //add css to the created div to admin header
 add_action( 'admin_head', array($my_foto_css, 'foto_css' ));
 
+//begin new functions for sidebar stuff
+function foto_sidebar_init() {
+    register_sidebar( array(
+        'name'          => __( 'Anns Sidebar' ),
+        'id'            => 'anns_sidebar-1',
+        'description'   => __( 'my first sidebar, lets see what happens' ),
+        'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</aside>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ) );
+}
+
+
+function foto_sidebar_css() {
+	echo "<style type='text/css'>
+	.sidebar_wrapper {
+		float: right;
+		width: 20px;
+		height: 50px;
+		font-size: 11px;
+		background-color: red;
+	}";
+}
+
+add_action ( 'widgets_init', 'foto_sidebar_init'); 
+add_action ( 'widgets_init', 'foto_sidebar_css');
+
 ?>
+
+<div id="secondary" class = "sidebar_wrapper">
+	<div class ="widget-area">
+		<?php dynamic_sidebar ( 'anns_sidebar-1' ); ?>
+	</div> <!-- space for widgets -->
+</div> <!-- end secondary -->
+
+
