@@ -46,6 +46,7 @@ $my_foto_css = new foto_css();
 add_action( 'admin_head', array($my_foto_css, 'foto_css' ));
 
 //begin new functions for sidebar stuff
+//loads a cute red sidebar, breaks rest of page
 function foto_sidebar_init() {
     register_sidebar( array(
         'name'          => __( 'Anns Sidebar' ),
@@ -67,7 +68,9 @@ function foto_sidebar_css() {
 		height: 50px;
 		font-size: 11px;
 		background-color: red;
-	}";
+	}
+	</style>
+	";
 }
 
 add_action ( 'widgets_init', 'foto_sidebar_init'); 
