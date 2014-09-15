@@ -1,0 +1,15 @@
+.sidebar_wrapper {
+		float: right;
+		width: 20px;
+		height: 50px;
+		font-size: 11px;
+		background-color: red;
+	}
+
+#image_wrap {
+		float: right;
+		margin: 2px;
+		padding: 2px;
+		font-size: 11px;
+		background-color: red;
+	}
