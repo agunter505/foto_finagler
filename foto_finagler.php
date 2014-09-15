@@ -18,8 +18,10 @@ class get_image {
 	}
 }
 
+$my_get_image = new get_image();
+
 //calls foto_get_image function and creates a div when admin_notices is called
-add_action( 'admin_notices', array( 'get_image', 'foto_get_image' ));
+add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
 
 
 //create a class to contain the css function
@@ -46,7 +48,6 @@ $my_foto_css = new foto_css();
 add_action( 'admin_head', array($my_foto_css, 'foto_css' ));
 
 //begin new functions for sidebar stuff
-//loads a cute red sidebar, breaks rest of page
 function foto_sidebar_init() {
     register_sidebar( array(
         'name'          => __( 'Anns Sidebar' ),
