@@ -17,7 +17,6 @@ class get_image {
 		echo "<div id='image_wrap'>$image</div>";
 	}
 }
-
 $my_get_image = new get_image();
 
 //calls foto_get_image function and creates a div when admin_notices is called
@@ -47,7 +46,10 @@ $my_foto_css = new foto_css();
 //add css to the created div to admin header
 add_action( 'admin_head', array($my_foto_css, 'foto_css' ));
 
+
+
 //begin new functions for sidebar stuff
+//loads a cute red sidebar, breaks rest of page
 function foto_sidebar_init() {
     register_sidebar( array(
         'name'          => __( 'Anns Sidebar' ),
@@ -60,29 +62,18 @@ function foto_sidebar_init() {
     ) );
 }
 
-
-function foto_sidebar_css() {
-	echo "<style type='text/css'>
-	.sidebar_wrapper {
-		float: right;
-		width: 20px;
-		height: 50px;
-		font-size: 11px;
-		background-color: red;
-	}
-	</style>
-	";
+function foto_add_stylesheet() {
+	wp_register_style( 'sidebar-wrapper', plugins_url( '/foto_style.css'));
+	wp_enqueue_style( 'sidebar-wrapper' );
 }
 
+add_action ( 'admin_enqueue_scripts', 'foto_add_stylesheet');
 add_action ( 'widgets_init', 'foto_sidebar_init'); 
-add_action ( 'widgets_init', 'foto_sidebar_css');
+
+echo " <div id=\"secondary\" class = \"sidebar_wrapper\"> ";
+echo " <div class =\"widget-area\"> ";
+dynamic_sidebar ( 'anns_sidebar-1' );
+echo " </div> ";
+echo " </div> ";
 
 ?>
-
-<div id="secondary" class = "sidebar_wrapper">
-	<div class ="widget-area">
-		<?php dynamic_sidebar ( 'anns_sidebar-1' ); ?>
-	</div> <!-- space for widgets -->
-</div> <!-- end secondary -->
-
-
