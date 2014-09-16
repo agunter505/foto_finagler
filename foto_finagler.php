@@ -17,20 +17,14 @@ class get_image {
 		echo "<div id='image_wrap'>$image</div>";
 	}
 
-	//style and echo image wrap from div in previous function
-	function foto_css() {
-		echo "
-		<style type='text/css'>
-		#image_wrap {
-			float: right;
-			margin: 2px;
-			padding: 2px;
-			font-size: 11px;
-			background-color: red;
-		}
-		</style>
-		";
-	}
+
+
+}
+
+//function to add css
+function foto_add_stylesheet() {
+	wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/foto_style.css', dirname(__FILE__) ));
+	wp_enqueue_style( 'foto_style1' );
 }
 
 //create an instance of the class
@@ -38,5 +32,7 @@ $my_get_image = new get_image();
 
 //use new object to call functions then add them to admin hooks
 add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
-add_action( 'admin_head', array($my_get_image, 'foto_css' ));
+add_action ( 'admin_enqueue_scripts', 'foto_add_stylesheet' );
+
+
 
