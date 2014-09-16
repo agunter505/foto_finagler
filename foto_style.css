@@ -1,0 +1,7 @@
+#image_wrap {
+			float: right;
+			margin: 2px;
+			padding: 2px;
+			font-size: 11px;
+			background-color: red;
+		}
