@@ -17,34 +17,19 @@ class get_image {
 		echo "<div id='image_wrap'>$image</div>";
 	}
 }
-$my_get_image = new get_image();
 
-//calls foto_get_image function and creates a div when admin_notices is called
-add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
-
-//create a class to contain the css function
-class foto_css {
-	//add css for the image div
-	function foto_css() {
-		echo "
-		<style type='text/css'>
-		#image_wrap {
-			float: right;
-			margin: 2px;
-			padding: 2px;
-			font-size: 11px;
-			background-color: red;
-		}
-		</style>
-		";
-	}
+//function to add css
+function foto_add_stylesheet() {
+	wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/foto_style.css', dirname(__FILE__) ));
+	wp_enqueue_style( 'foto_style1' );
 }
 
 //create an instance of the class
-$my_foto_css = new foto_css();
-//add css to the created div to admin header
-add_action( 'admin_head', array($my_foto_css, 'foto_css' ));
+$my_get_image = new get_image();
 
+//use new object to call functions then add them to admin hooks
+add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
+add_action ( 'admin_enqueue_scripts', 'foto_add_stylesheet' );
 
 
 //begin new functions for sidebar stuff
@@ -61,20 +46,13 @@ function foto_sidebar_init() {
     ) );
 }
 
-function foto_add_stylesheet() {
-	wp_register_style( 'sidebar-wrapper', plugins_url( '/foto_style.css'));
-	wp_enqueue_style( 'sidebar-wrapper' );
-}
-
-function add_foto_sidebar() {
-	echo " <div id=\"secondary\" class = \"sidebar_wrapper\"> ";
-	echo " <div class =\"widget-area\"> ";
-	dynamic_sidebar ( 'anns_sidebar-1' );
-	echo " </div> ";
-	echo " </div> ";
-}
-
-add_action ( 'admin_enqueue_scripts', 'foto_add_stylesheet');
 add_action ( 'widgets_init', 'foto_sidebar_init');
-add_action ( 'admin-footer', 'add_foto_sidebar'); 
+add_action ( 'admin-head', 'add_foto_sidebar');
 
+?>
+
+<div id="secondary" class="sidebar_wrapper" role="complementary">
+    <div class="widget-area">
+        <?php dynamic_sidebar( 'sidebar-1' ); ?>
+    </div><!-- .widget-area -->
+</div><!-- #secondary -->
