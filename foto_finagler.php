@@ -17,6 +17,7 @@ class get_image {
 		echo "<div id='image_wrap'>$image</div>";
 	}
 
+	//style and echo image wrap from div in previous function
 	function foto_css() {
 		echo "
 		<style type='text/css'>
