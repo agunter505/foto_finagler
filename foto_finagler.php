@@ -16,18 +16,7 @@ class get_image {
 		$image = "<p>This would be my image</p>";
 		echo "<div id='image_wrap'>$image</div>";
 	}
-}
 
-//create an instance of the class
-$my_get_image = new get_image();
-
-//calls foto_get_image function and creates a div when admin_notices is called
-add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
-
-
-//create a class to contain the css function
-class foto_css {
-	//add css for the image div
 	function foto_css() {
 		echo "
 		<style type='text/css'>
@@ -44,7 +33,9 @@ class foto_css {
 }
 
 //create an instance of the class
-$my_foto_css = new foto_css();
-//add css to the created div to admin header
-add_action( 'admin_head', array($my_foto_css, 'foto_css' ));
+$my_get_image = new get_image();
+
+//use new object to call functions then add them to admin hooks
+add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
+add_action( 'admin_head', array($my_get_image, 'foto_css' ));
 
