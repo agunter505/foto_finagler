@@ -11,13 +11,14 @@
 
 //create a class to contain the image function to help prevent naming conflicts
 class get_image {
-	//get the image to be placed
+
+	//get the image to be placed in the header
 	function foto_get_image() {
 		$image = "<p>This would be my image</p>";
 		echo "<div id='image_wrap'>$image</div>";
 	}
 
-    //loads a cute red sidebar
+    //registers the sidebar
     function foto_sidebar_init() {
         register_sidebar( array(
             'name'          => __( 'Anns Sidebar' ),
@@ -27,27 +28,30 @@ class get_image {
             'after_widget'  => '</aside>',
             'before_title'  => '<h2 class="widget-title">',
             'after_title'   => '</h2>',
-        ) );
+        ));
     }
-}
 
-//function to add css
-function foto_add_stylesheet() {
-	wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/foto_style.css', dirname(__FILE__) ));
-	wp_enqueue_style( 'foto_style1' );
+    //function to add stylesheet, styles 
+    function foto_add_stylesheet() {
+        wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/foto_style.css', dirname(__FILE__) ));
+        wp_enqueue_style( 'foto_style1' );
+    }
+
+    function foto_get_sidebar() {
+        echo "<div id = \"secondary\" class = \"sidebar_wrapper\">";
+        echo "<div>"; 
+            dynamic sidebar ( 'sidebar-1' ) 
+        echo "</div>";
+        echo "</div>";
+    }
 }
 
 //create an instance of the class
 $my_get_image = new get_image();
 
-//use new object to call functions then add them to admin hooks
-add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
+//use new object to call functions then add them to the proper hooks
+add_action ( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
+add_action ( 'admin_notices', array( $my_get_image, 'foto_get_sidebar' ));
 add_action ( 'widgets_init', array( $my_get_image, 'foto_sidebar_init' ));
-add_action ( 'admin_enqueue_scripts', 'foto_add_stylesheet' );
-?>
+add_action ( 'admin_enqueue_scripts', array( $my_get_image, 'foto_add_stylesheet' ));
 
-<div id="secondary" class="sidebar_wrapper" role="complementary">
-    <div class="widget-area">
-        <?php dynamic_sidebar( 'sidebar-1' ); ?>
-    </div><!-- .widget-area -->
-</div><!-- #secondary -->
