@@ -9,30 +9,36 @@
  * License: GPLv2 or later
  */
 
-//create a class to contain the image function to help prevent naming conflicts
-class get_image {
-	//get the image to be placed
-	function foto_get_image() {
+
+ // Prevent direct file access
+if ( ! defined ( 'ABSPATH' ) ) {
+    exit;
+};
+
+class foto_finagler {
+	public function __construct() {
+		//hooks div creation to admin_notices function
+		add_action( 'admin_notices', array( $this, 'foto_get_image' ));
+		//hooks stylesheet to admin scripts since it's appearing in admin area
+		add_action ( 'admin_enqueue_scripts', array( $this, 'foto_add_stylesheet' ));
+	}
+
+	//get the image to be placed and puts it in a div
+	public function foto_get_image() {
 		$image = "<p>This would be my image</p>";
 		echo "<div id='image_wrap'>$image</div>";
 	}
 
-
-
+	//registers and queues stylesheet for the image created above
+	public function foto_add_stylesheet() {
+		wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/foto_style.css', dirname(__FILE__) ));
+		wp_enqueue_style( 'foto_style1' );
+	}
 }
 
-//function to add css
-function foto_add_stylesheet() {
-	wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/foto_style.css', dirname(__FILE__) ));
-	wp_enqueue_style( 'foto_style1' );
+function run_foto_finagler() {
+	$foto_finagler = new foto_finagler();	
 }
 
-//create an instance of the class
-$my_get_image = new get_image();
 
-//use new object to call functions then add them to admin hooks
-add_action( 'admin_notices', array( $my_get_image, 'foto_get_image' ));
-add_action ( 'admin_enqueue_scripts', 'foto_add_stylesheet' );
-
-
-
+run_foto_finagler();
