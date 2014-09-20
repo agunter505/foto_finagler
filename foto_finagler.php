@@ -28,8 +28,8 @@ class foto_finagler {
 
 	//registers and queues admin stylesheet foto_admin_style
 	public function foto_add_admin_style() {
-		wp_register_style( 'admin_foto_style1', plugins_url( 'foto_finagler/css/foto_admin_style.css', dirname(__FILE__) ));
-		wp_enqueue_style( 'admin_foto_style1' );
+		wp_register_style( 'foto_admin_style1', plugins_url( 'foto_finagler/css/foto_admin_style.css', dirname(__FILE__) ));
+		wp_enqueue_style( 'foto_admin_style1' );
 	}
 	//loads html for admin options page from foto_admin_view
 	public function foto_options() {
@@ -48,4 +48,4 @@ function foto_finagler_run() {
 }
 
 //runs it all
-foto_finagler_run();
+add_action('init', 'foto_finagler_run');

@@ -1,5 +1,15 @@
-#admin_list li {
-	cursor: pointer;
-	background: #AF97D3;
-	
+/*style for admin options page*/
+#foto_settings {
+	/*background-color: blue;
+	border: solid black;*/
 }
+
+.admin_field {
+	width: 60px;
+}
+
+#wrap {
+	/*background-color: blue;
+	border: solid black;*/
+}
+
