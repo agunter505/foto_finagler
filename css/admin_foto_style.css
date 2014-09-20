@@ -1,7 +1,13 @@
 #image_wrap {
-			float: right;
-			margin: 2px;
-			padding: 2px;
-			font-size: 11px;
-			background-color: red;
-		}
+	float: right;
+	margin: 2px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: red;
+}
+
+#admin_list li {
+	cursor: pointer;
+	background: #AF97D3;
+	
+}

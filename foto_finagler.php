@@ -15,13 +15,16 @@ if ( ! defined ( 'ABSPATH' ) ) {
     exit;
 };
 
+//main plugin class
 class foto_finagler {
+
+	//constructor
 	public function __construct() {
 		//hooks div creation to admin_notices function
 		add_action( 'admin_notices', array( $this, 'foto_get_image' ));
 		//hooks stylesheet to admin scripts since it's appearing in admin area
 		add_action ( 'admin_enqueue_scripts', array( $this, 'foto_add_stylesheet' ));
-		/** Step 2 (from text above). */
+		//adds foto finagler options page and menu item under settings
 		add_action( 'admin_menu', array( $this, 'my_plugin_menu' ));
 	}
 
@@ -36,25 +39,21 @@ class foto_finagler {
 		wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/css/admin_foto_style.css', dirname(__FILE__) ));
 		wp_enqueue_style( 'foto_style1' );
 	}
-
+	//loads plugin html for admin page
+	public function my_plugin_options() {
+		require_once( plugin_dir_path(__FILE__) . 'views/admin.php');
+	}
+	//loads options page
 	public function my_plugin_menu() {
-	add_options_page( 'My Plugin Options', 'Anns Plugin', 'manage_options', 'my-unique-identifier', array( $this, 'my_plugin_options' );
+	add_options_page( 'My Plugin Options', 'Foto Finagler', 'manage_options', 'my-unique-identifier', array( $this, 'my_plugin_options' ));
 	}
 
-	public function my_plugin_options() {
-		if ( !current_user_can( 'manage_options' ) )  {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-			echo '<div class="wrap">';
-			echo '<p>Here is where the form would go if I actually had options.</p>';
-			echo '</div>';
-	}	
-}
+} // end main plugin class
 
-
+//instantiates foto_finagler class
 function run_foto_finagler() {
 	$foto_finagler = new foto_finagler();	
 }
 
-
+//runs it all
 run_foto_finagler();
