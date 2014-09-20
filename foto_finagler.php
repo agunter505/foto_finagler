@@ -18,42 +18,34 @@ if ( ! defined ( 'ABSPATH' ) ) {
 //main plugin class
 class foto_finagler {
 
-	//constructor
+	//constructor for main plugin class
 	public function __construct() {
-		//hooks div creation to admin_notices function
-		add_action( 'admin_notices', array( $this, 'foto_get_image' ));
-		//hooks stylesheet to admin scripts since it's appearing in admin area
-		add_action ( 'admin_enqueue_scripts', array( $this, 'foto_add_stylesheet' ));
+		//hooks admin_foto_style to admin_enqueue_scripts 
+		add_action ( 'admin_enqueue_scripts', array( $this, 'foto_add_admin_style' ));
 		//adds foto finagler options page and menu item under settings
-		add_action( 'admin_menu', array( $this, 'my_plugin_menu' ));
+		add_action( 'admin_menu', array( $this, 'foto_menu' ));
 	}
 
-	//get the image to be placed and puts it in a div
-	public function foto_get_image() {
-		$image = "<p>This would be my image</p>";
-		echo "<div id='image_wrap'>$image</div>";
+	//registers and queues admin stylesheet foto_admin_style
+	public function foto_add_admin_style() {
+		wp_register_style( 'admin_foto_style1', plugins_url( 'foto_finagler/css/foto_admin_style.css', dirname(__FILE__) ));
+		wp_enqueue_style( 'admin_foto_style1' );
 	}
-
-	//registers and queues stylesheet for the image created above
-	public function foto_add_stylesheet() {
-		wp_register_style( 'foto_style1', plugins_url( 'foto_finagler/css/admin_foto_style.css', dirname(__FILE__) ));
-		wp_enqueue_style( 'foto_style1' );
+	//loads html for admin options page from foto_admin_view
+	public function foto_options() {
+		require_once( plugin_dir_path(__FILE__) . 'views/foto_admin_view.php');
 	}
-	//loads plugin html for admin page
-	public function my_plugin_options() {
-		require_once( plugin_dir_path(__FILE__) . 'views/admin.php');
-	}
-	//loads options page
-	public function my_plugin_menu() {
-	add_options_page( 'My Plugin Options', 'Foto Finagler', 'manage_options', 'my-unique-identifier', array( $this, 'my_plugin_options' ));
+	//loads admin options page, uses foto_options to load html to admin page
+	public function foto_menu() {
+	add_options_page( 'Foto Finagler Options', 'Foto Finagler', 'manage_options', 'foto_finagler_options', array( $this, 'foto_options' ));
 	}
 
 } // end main plugin class
 
 //instantiates foto_finagler class
-function run_foto_finagler() {
+function foto_finagler_run() {
 	$foto_finagler = new foto_finagler();	
 }
 
 //runs it all
-run_foto_finagler();
+foto_finagler_run();
