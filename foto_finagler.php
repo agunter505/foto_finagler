@@ -23,8 +23,6 @@ class foto_finagler {
 		add_action ( 'admin_enqueue_scripts', array( $this, 'foto_add_stylesheet' ));
 		/** Step 2 (from text above). */
 		add_action( 'admin_menu', array( $this, 'my_plugin_menu' ));
-
-		include (plugin_dir_path(__FILE__) . 'views/admin.php');
 	}
 
 	//get the image to be placed and puts it in a div
@@ -40,8 +38,17 @@ class foto_finagler {
 	}
 
 	public function my_plugin_menu() {
-	add_options_page( 'My Plugin Options', 'Anns Plugin', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
+	add_options_page( 'My Plugin Options', 'Anns Plugin', 'manage_options', 'my-unique-identifier', array( $this, 'my_plugin_options' );
 	}
+
+	public function my_plugin_options() {
+		if ( !current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+			echo '<div class="wrap">';
+			echo '<p>Here is where the form would go if I actually had options.</p>';
+			echo '</div>';
+	}	
 }
 
 
